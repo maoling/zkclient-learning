@@ -12,10 +12,11 @@ public class CreateNode {
 		ZkClient zc = new ZkClient(ZkAdress.Zk_URL, 10000,10000,new SerializableSerializer());
 		System.out.println("conneted ok!");		
 		
-		User u = new User();
+		/*User u = new User();
 		u.setId(1);
-		u.setName("test");
-		String path = zc.create("/jike5", u, CreateMode.PERSISTENT);
+		u.setName("test");*/
+		String strdata = "strange";
+		String path = zc.create("/nay", strdata, CreateMode.PERSISTENT);
 		System.out.println("created path:"+path);
 	}
 	

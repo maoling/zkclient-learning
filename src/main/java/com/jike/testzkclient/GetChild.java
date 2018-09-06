@@ -7,15 +7,17 @@ import org.I0Itec.zkclient.serialize.SerializableSerializer;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
 
+import com.base.enums.ZkAdress;
+
 public class GetChild {
 
 	public static void main(String[] args) {
-		ZkClient zc = new ZkClient("192.168.1.105:2181",10000,10000,new SerializableSerializer());
+		ZkClient zc = new ZkClient(ZkAdress.Zk_URL,10000,10000,new SerializableSerializer());
 		System.out.println("conneted ok!");
 		
-		List<String> cList = zc.getChildren("/jike5");
+		List<String> cList = zc.getChildren("/zk-latencies");
 		
-		System.out.println(cList.toString());
+		System.out.println(cList.size());
 		
 	}
 	
