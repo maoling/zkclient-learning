@@ -10,6 +10,8 @@ import org.I0Itec.zkclient.serialize.SerializableSerializer;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
 
+import com.base.enums.ZkAdress;
+
 public class SubscribeDataChanges {
 	
 	private static class ZkDataListener implements IZkDataListener{
@@ -17,7 +19,8 @@ public class SubscribeDataChanges {
 		public void handleDataChange(String dataPath, Object data)
 				throws Exception {
 			// TODO Auto-generated method stub
-			System.out.println(dataPath+":"+data.toString());
+			//
+			System.out.println(dataPath+" has changed to:"+ String.valueOf(data));
 		}
 
 		public void handleDataDeleted(String dataPath) throws Exception {
@@ -25,20 +28,14 @@ public class SubscribeDataChanges {
 			System.out.println(dataPath);
 			
 		}
-
-		
-		
-		
 	}
 
 	public static void main(String[] args) throws InterruptedException {
-		ZkClient zc = new ZkClient("192.168.1.105:2181",10000,10000,new BytesPushThroughSerializer());
+		ZkClient zc = new ZkClient(ZkAdress.Zk_URL,10000,10000);//,new BytesPushThroughSerializer()
 		System.out.println("conneted ok!");
 		
-		zc.subscribeDataChanges("/jike20", new ZkDataListener());
+		zc.subscribeDataChanges("/configplatform/18", new ZkDataListener());
 		Thread.sleep(Integer.MAX_VALUE);
-		
-		
 	}
 	
 }

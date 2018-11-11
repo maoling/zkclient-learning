@@ -14,9 +14,11 @@ public class GetData {
 		System.out.println("conneted ok!");
 		
 		Stat stat = new Stat();
-		User u = zc.readData("/jike5",stat);
-		System.out.println(u.toString()+" id: " + u.getId() + " name: " + u.getName());
-		System.out.println(stat);
+		//User u = zc.readData("/fuck_me",stat);
+		String string = zc.readData("/fuck_me",stat);
+		System.out.println(string);
+		//System.out.println(u.toString()+" id: " + u.getId() + " name: " + u.getName());
+		//System.out.println(stat);
 		
 	}
 	

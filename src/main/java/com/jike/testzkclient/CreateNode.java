@@ -15,8 +15,8 @@ public class CreateNode {
 		/*User u = new User();
 		u.setId(1);
 		u.setName("test");*/
-		String strdata = "strange";
-		String path = zc.create("/nay", strdata, CreateMode.PERSISTENT);
+		String strdata = "0";
+		String path = zc.create("/configplatform/1", strdata, CreateMode.PERSISTENT);
 		System.out.println("created path:"+path);
 	}
 	
