@@ -1,3 +1,5 @@
+package com.jike.barrier;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
@@ -53,7 +55,7 @@ public class SyncPrimitive implements Watcher {
      */
     static public class Barrier extends SyncPrimitive {
         int size;
-        String name;
+        String barrierPath;
         private final String ourPath;
         String readyPath;
         private static final String READY_NODE = "ready";
@@ -74,7 +76,7 @@ public class SyncPrimitive implements Watcher {
          */
         Barrier(String address, String barrierPath, int size) {
             super(address);
-            this.root = barrierPath;
+            this.barrierPath = barrierPath;
             this.size = size;
             this.ourPath = barrierPath + "/" + UUID.randomUUID().toString();
             this.readyPath = barrierPath + "/" + READY_NODE;
@@ -110,7 +112,7 @@ public class SyncPrimitive implements Watcher {
 
         private synchronized boolean internalEnter() throws Exception {
             boolean result = true;
-            List&lt;String&gt; list = zk.getChildren(barrierPath, false);
+            List<String> list = zk.getChildren(barrierPath, false);
             do {
                 if (list.size() >= size) {
                     try {
@@ -142,7 +144,7 @@ public class SyncPrimitive implements Watcher {
             String ourPathName = getNodeFromPath(ourPath);
 
             while (true) {
-                List&lt;String&gt; children = zk.getChildren(barrierPath, false);
+                List<String> children = zk.getChildren(barrierPath, false);
                 children = filterAndSortChildren(children);
                 if (children == null || children.size() == 0) {
                     break;
@@ -150,12 +152,12 @@ public class SyncPrimitive implements Watcher {
 
                 int ourIndex = children.indexOf(ourPathName);
 
-                if (ourIndex &lt; 0 <![CDATA[&&]]> ourNodeShouldExist) {
+                if (ourIndex < 0 && ourNodeShouldExist) {
                     break;
                 }
 
                 if (children.size() == 1) {
-                    if (ourNodeShouldExist <![CDATA[&&]]> !children.get(0).equals(ourPathName)) {
+                    if (ourNodeShouldExist && !children.get(0).equals(ourPathName)) {
                         throw new IllegalStateException(
                                 String.format("Last path (%s) is not ours (%s)", children.get(0), ourPathName));
                     }
@@ -200,8 +202,8 @@ public class SyncPrimitive implements Watcher {
          * @param children
          * @return
          */
-        private static List&lt;String&gt; filterAndSortChildren(List&lt;String&gt; children) {
-            List&lt;String&gt; filterList = children.stream().filter(name -> !name.equals(READY_NODE)).collect(Collectors.toList());
+        private static List<String> filterAndSortChildren(List<String> children) {
+            List<String> filterList = children.stream().filter(name -> !name.equals(READY_NODE)).collect(Collectors.toList());
             Collections.sort(filterList);
             return filterList;
         }
@@ -216,7 +218,7 @@ public class SyncPrimitive implements Watcher {
          */
         public static String getNodeFromPath(String path) {
             int i = path.lastIndexOf("/");
-            if (i &lt; 0) {
+            if (i < 0) {
                 return path;
             }
             if ((i + 1) >= path.length()) {
@@ -298,7 +300,7 @@ public class SyncPrimitive implements Watcher {
             // Get the first element available
             while (true) {
                 synchronized (mutex) {
-                    List&lt;String&gt; list = zk.getChildren(root, true);
+                    List<String> list = zk.getChildren(root, true);
                     if (list.size() == 0) {
                         System.out.println("Going to wait");
                         mutex.wait();
@@ -308,7 +310,7 @@ public class SyncPrimitive implements Watcher {
                         for(String s : list){
                             Integer tempValue = new Integer(s.substring(7));
                             //System.out.println("Temporary value: " + tempValue);
-                            if(tempValue &lt; min) {
+                            if(tempValue < min) {
                                 min = tempValue;
                                 minNode = s;
                             }
@@ -344,7 +346,7 @@ public class SyncPrimitive implements Watcher {
 
         if (args[3].equals("p")) {
             System.out.println("Producer");
-            for (i = 0; i &lt; max; i++)
+            for (i = 0; i < max; i++)
             try{
                 q.produce(10 + i);
             } catch (KeeperException e){
@@ -355,7 +357,7 @@ public class SyncPrimitive implements Watcher {
         } else {
             System.out.println("Consumer");
 
-            for (i = 0; i &lt; max; i++) {
+            for (i = 0; i < max; i++) {
                 try{
                     int r = q.consume();
                     System.out.println("Item: " + r);
@@ -374,10 +376,10 @@ public class SyncPrimitive implements Watcher {
         try {
             ExecutorService service = Executors.newFixedThreadPool(QTY);
             System.out.println("barrier size:" + QTY);
-            for (int i = 0; i &lt; QTY; ++i) {
+            for (int i = 0; i < QTY; ++i) {
                 final Barrier barrier = new Barrier(args[1], "/b1", QTY);
                 final int index = i;
-                Callable<![CDATA[<Void>]]> task = () -> {
+                Callable<Void> task = () -> {
                     Thread.sleep((long) (3 * Math.random()));
                     System.out.println("Client #" + index + " enters");
                     barrier.enter();
