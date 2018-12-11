@@ -36,7 +36,7 @@
 			<artifactId>hadoop-common</artifactId>
 			<version>2.5.1</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-client</artifactId>
 			<version>3.0.0</version>
@@ -45,7 +45,7 @@
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-protocol</artifactId>
 			<version>3.0.0</version>
-        </dependency>
+        </dependency>-->
 
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
@@ -131,6 +131,14 @@
 					</goals>
 				</execution>
 			</executions>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<source>6</source>
+				<target>6</target>
+			</configuration>
 		</plugin>
 	</plugins>
 </build>

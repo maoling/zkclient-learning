@@ -1,3 +1,4 @@
+/*
 package com.base.curator;
 
 import java.util.concurrent.Callable;
@@ -17,10 +18,12 @@ public class DistributedBarrierExample {
 	private static final String PATH = "/examples/barrier";
 
 	public static void main(String[] args) throws Exception {
-		/*do {
+		*/
+/*do {
 			System.out.println("ooxxooxx");
-		} while (false);*/
-		
+		} while (false);*//*
+
+
         try {
             CuratorFramework client = CuratorFrameworkFactory.newClient(ZkAdress.Zk_URL, new ExponentialBackoffRetry(1000, 3));
             client.start();
@@ -49,4 +52,4 @@ public class DistributedBarrierExample {
 		}
     }
 
-}
+}*/

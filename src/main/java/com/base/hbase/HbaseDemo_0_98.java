@@ -1,3 +1,4 @@
+/*
 package com.base.hbase;
 import java.io.File;
 import java.io.IOException;
@@ -38,8 +39,8 @@ public class HbaseDemo_0_98 {
     	configuration.set("hbase.zookeeper.quorum", HBASE_POS);
         // 设置连接参数：HBase数据库使用的端口
     	configuration.set("hbase.zookeeper.property.clientPort", "2181");
-        
-    	configuration.set("hbase.master", HBASE_POS + ":60000");  
+
+    	configuration.set("hbase.master", HBASE_POS + ":60000");
         // 取得一个数据库连接对象
         try {
 			connection = ConnectionFactory.createConnection(configuration);
@@ -114,27 +115,31 @@ public class HbaseDemo_0_98 {
         table.put(put);
 
         // 批量插入
-        /*
+        */
+/*
          * List<Put> putList = new ArrayList<Put>(); puts.add(put);
          * table.put(putList);
-         */
+         *//*
+
         table.close();
         close();
     }
-    
+
     // 插入数据
     public static void insterRowByCellApi(String tableName, String rowkey, String colFamily, String col, String val)
             throws IOException {
         init();
         Table table = connection.getTable(TableName.valueOf(tableName));
-        
-        /*Put put = new Put(Bytes.toBytes(rowkey));
+
+        */
+/*Put put = new Put(Bytes.toBytes(rowkey));
         put.addColumn(Bytes.toBytes(colFamily), Bytes.toBytes(col), Bytes.toBytes(val));
-        table.put(put);*/
-        
+        table.put(put);*//*
+
+
 		final CellBuilder cell = CellBuilderFactory.create(CellBuilderType.SHALLOW_COPY).setType(Cell.Type.Put);
 		for (int i = 0; i < 10; i++) {
-			//cell.clear();			
+			//cell.clear();
 			byte[] row = Bytes.toBytes("row_"+ i);
 			Put put = new Put(row);
 			cell.setRow(row);
@@ -145,19 +150,19 @@ public class HbaseDemo_0_98 {
 			table.put(put);
 		}
 
-        
+
         table.close();
         close();
     }
-    
+
  // 插入数据
     public static void insterRowByCellApi2(String tableName, String rowkey, String colFamily, String col, String val)
             throws IOException {
         init();
         Table table = connection.getTable(TableName.valueOf(tableName));
-        
+
 		for (int i = 0; i < 10; i++) {
-			//cell.clear();			
+			//cell.clear();
 			byte[] row = Bytes.toBytes("row_"+ i);
 			Put put = new Put(row);
 			CellBuilder cell = put.getCellBuilder();
@@ -168,7 +173,7 @@ public class HbaseDemo_0_98 {
 			table.put(put);
 		}
 
-        
+
         table.close();
         close();
     }
@@ -184,10 +189,12 @@ public class HbaseDemo_0_98 {
         // delete.addColumn(Bytes.toBytes(colFamily),Bytes.toBytes(col));
         table.delete(delete);
         // 批量删除
-        /*
+        */
+/*
          * List<Delete> deleteList = new ArrayList<Delete>();
          * deleteList.add(delete); table.delete(deleteList);
-         */
+         *//*
+
         table.close();
         close();
     }
@@ -234,17 +241,19 @@ public class HbaseDemo_0_98 {
         table.close();
         close();
     }
-    
+
     public static void main(String[] args) throws IOException {
         //createTable("t1", new String[] { "cf1", "cf2" });
         //listTables();
-    	//insterRow("t1", "rw1", "cf1", "q1", "val1"); 
+    	//insterRow("t1", "rw1", "cf1", "q1", "val1");
     	insterRowByCellApi2("t1", "rw1", "cf1", "hometown", "yangzhou");
-        //getData("t2", "rw1","cf1", "q1"); 
-        /*        
+        //getData("t2", "rw1","cf1", "q1");
+        */
+/*
         scanData("t2", "rw1", "rw2");
          * deleRow("t2","rw1","cf1","q1"); deleteTable("t2");
-         */
+         *//*
+
     }
 
-}
+}*/
